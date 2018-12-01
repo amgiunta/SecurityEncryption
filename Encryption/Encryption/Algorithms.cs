@@ -17,6 +17,62 @@ namespace Encryption.Algorithms
         public virtual string Decrypt(string cipherText) { return cipherText; }
     }
 
+    public class Binary : Algorithm {
+        private struct bin {
+            int value;
+
+            public override string ToString()
+            {
+                return value.ToString();
+            }
+
+            public static implicit operator bin(int other) {
+                bin b;
+                string converted = Convert.ToString(other, 2);
+                b.value = Int32.Parse(converted);
+                return b;
+            }
+
+            public static implicit operator int(bin other) {
+                int converted = Convert.ToInt32(other.value.ToString(), 2);
+                return converted;
+            }
+
+            public static explicit operator bin(string other) {
+                bin b;
+                b.value = Int32.Parse(other);
+                return b;
+            }
+        }
+
+        public Binary(string name = "binary") : base(name) { }
+
+        public override string Encrypt(string plainText)
+        {
+            string ciphertext = "";
+
+            foreach (char character in plainText) {
+                bin binary = character;
+                ciphertext += binary.ToString() + " ";
+            }
+
+            return ciphertext;
+        }
+
+        public override string Decrypt(string cipherText)
+        {
+            string[] ciphermedley = cipherText.Split(' ');
+            string plainText = "";
+
+            foreach (bin b in ciphermedley) {
+                char c = (char) b;
+                plainText += c;
+            }
+
+            return plainText;
+        }
+    }
+
     public class Cesar : Algorithm {
         
         private int shiftAmount;

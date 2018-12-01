@@ -83,6 +83,7 @@ namespace Encryption
             Console.Clear();
             loadedAlgorithms.Add(new Cesar());
             loadedAlgorithms.Add(new Cesar(6, "double cesar"));
+            loadedAlgorithms.Add(new Binary());
         }
 
         private static bool ReRun() {
